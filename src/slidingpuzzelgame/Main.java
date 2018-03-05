@@ -81,6 +81,16 @@ public class Main extends JFrame
         lTimePassed.setText("Time passed: " + time + " sec.             ");
     }
     
+    public static int getTime()
+    {
+        return time;
+    }
+    
+    public static int getMove()
+    {
+        return moves;
+    }
+    
     public static void repaintGamePanel()
     {
         gPanel.repaint();
@@ -113,7 +123,6 @@ class TimePlaied implements Runnable
             while (!Thread.currentThread().isInterrupted())
             {
             Main.addTime();
-            System.out.println("1");
             Thread.sleep(1000);
             }
         } 
@@ -136,20 +145,22 @@ class PuzzleMatrix
         
     }
     
-    public static Boolean havePlayerWon()
+    public static void havePlayerWon()
     {
-        int tmp = 0;
-        int tmp2 = 0; 
+        int tmp = 1;
+        int tmp2 = 0;
+        int tmp3;
         
         for (int i = 0; i < 4; i++)
             for (int j = 0; j < 4; j++)
             {
-                if (puzzleMatrix[i][j].getText() == tmp+"") tmp2++;
+                if (puzzleMatrix[i][j].getText() == "") tmp3 = 0;
+                else tmp3 = Integer.parseInt(puzzleMatrix[i][j].getText());
+                
+                if (tmp3 == tmp) tmp2++;
+                tmp++;
             }
-        
-        if (tmp2 == 15) System.out.println("Brawo :) Wygrales!");
-        else System.out.println("Postaraj się bardziej!");
-        return true;
+        if (tmp2 == 15) JOptionPane.showMessageDialog(null, "Brawo!. Ułożyłeś puzzle po "+ Main.getTime()+ " sekundach i "+ Main.getMove()+ " ruchach.");
     }
     
     public static int getEmptyX()
